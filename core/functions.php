@@ -70,20 +70,20 @@ class functions
 	{
 		$port = ($this->get_meta('ssl')) ? 443 : 80;
 
-		// Can we access the version srver?
-		if (@fsockopen(($port == 443 ? 'ssl://' : '') . $this->get_meta('host'), $port, $errno, $errstr, 2))
+		try
 		{
-			try
+			// Let's just make sure that the version file is exists
+			if (@fopen(($port == 443 ? 'ssl://' : 'http://') . $this->get_meta('host') . $this->get_meta('directory') . $this->get_meta('filename'), 'r'))
 			{
 				$md_manager 	= $this->ext_manager->create_extension_metadata_manager($this->get_ext_namespace());
-				$version_data	= $this->ext_manager->version_check($md_manager, true);
+				$version_data	= $this->ext_manager->version_check($md_manager, true, false, 'unstable');
 			}
-			catch (version_check_exception $e)
+			else
 			{
 				$version_data['current'] = 'fail';
 			}
 		}
-		else
+		catch (version_check_exception $e)
 		{
 			$version_data['current'] = 'fail';
 		}
