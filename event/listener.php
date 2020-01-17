@@ -16,7 +16,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\language\language;
-use david63\acpversioncheck\core\functions;;
+use david63\acpversioncheck\core\functions;
 
 /**
 * Event listener
@@ -94,20 +94,20 @@ class listener implements EventSubscriberInterface
 
 		foreach ($style as $style_info)
 		{
-    		if ($style_info->isDir() && !$style_info->isDot() && $style_info->getFilename() != 'all')
+			if ($style_info->isDir() && !$style_info->isDot() && $style_info->getFilename() != 'all')
 			{
 				$style_file = fopen($this->root_path . 'styles/' . $style_info->getFilename() . '/style.cfg', 'r');
 
 				// Set the variables just in case one, or both, are missing in the .cfg files (this should never happen)
 				$style_name = $style_version = $this->language->lang('MISSING');
 
-				while($line = fgets($style_file))
+				while ($line = fgets($style_file))
 				{
-    				if (strpos(strtolower($line), 'name') === 0)
+					if (strpos(strtolower($line), 'name') === 0)
 					{
 						$style_name = $this->strip_data_from_line($line);
         				continue;
-    				}
+					}
 
 					if (strpos(strtolower($line), 'phpbb_version') === 0)
 					{
@@ -115,8 +115,8 @@ class listener implements EventSubscriberInterface
 						// Let's check the version here rather than looping through later
 						$check_version = phpbb_version_compare($db_version, $style_version, '=');
 						$version_check = ($check_version == false) ? false : $version_check;
-        				continue;
-    				}
+						continue;
+					}
 				}
 				fclose($style_file);
 
@@ -124,7 +124,7 @@ class listener implements EventSubscriberInterface
 					'name' 		=> $style_name,
 					'version'	=> $style_version,
 				);
-    		}
+			}
 		}
 
 		foreach ($style_versions as $key => $row)
@@ -132,7 +132,7 @@ class listener implements EventSubscriberInterface
 			$this->template->assign_block_vars('style_versions', array(
 				'STYLE_NAME'	=> $row['name'],
 				'STYLE_VERSION'	=> $row['version'],
-		   	));
+			));
 		}
 
 		// Output template data
