@@ -106,7 +106,7 @@ class listener implements EventSubscriberInterface
 					if (strpos(strtolower($line), 'name') === 0)
 					{
 						$style_name = $this->strip_data_from_line($line);
-        				continue;
+						continue;
 					}
 
 					if (strpos(strtolower($line), 'phpbb_version') === 0)
