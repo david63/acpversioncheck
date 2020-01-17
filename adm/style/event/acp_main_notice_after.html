@@ -1,4 +1,4 @@
-{% INCLUDECSS '@david63_acpversioncheck/acpversioncheck.css' %}
+{% INCLUDECSS '@' ~ NAMESPACE ~ '/css/acpversioncheck.css' %}
 
 {% if S_ACP_VERSIONCHECK %}
 	<div class="successbox notice">
@@ -12,8 +12,8 @@
 		<table class="table1 two-columns no-header" data-no-responsive-header="true">
 			<thead>
 				<tr>
-					<th>{{ lang('VERSION_NAME') }}</th>
-					<th>{{ lang('VERSION') }}<img style="float: {{ S_CONTENT_FLOW_END }};" src="https://img.shields.io/badge/{{ lang('VERSION') }}-{{ ACPVERSIONCHECK_VERSION }}-orange.svg?style=plastic" /></th>
+					<th>{{ lang('VERSION_LOCATION') }}</th>
+					<th>{{ lang('VERSION') }}</th>
 				</tr>
 			</thead>
 
@@ -46,6 +46,7 @@
 			</tbody>
 		</table>
 	</div>
+	<br>
 {% endif %}
 
 <script>
@@ -53,4 +54,4 @@
 	var hideText = '{{ lang('HIDE') | escape('js') }}';
 </script>
 
-{% INCLUDEJS '@david63_acpversioncheck/acpversioncheck_fn.js' %}
+{% INCLUDEJS '@' ~ NAMESPACE ~ '/js/acpversioncheck_fn.js' %}

@@ -50,7 +50,7 @@ $lang = array_merge($lang, array(
 
 	'VERSION'				=> 'Version',
 	'VERSION_INFO' 			=> 'Version information',
-	'VERSION_NAME' 			=> 'Version location',
+	'VERSION_LOCATION' 		=> 'Version location',
 	'VERSIONS_CORRECT'		=> 'All phpBB versions on this board are consistent.',
 	'VERSIONS_INCORRECT'	=> 'There are inconsistencies with the phpBB versions on this board',
 	'VIEW' 					=> '»» view details »»',

@@ -16,7 +16,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\language\language;
-use david63\acpversioncheck\ext;
+use david63\acpversioncheck\core\functions;;
 
 /**
 * Event listener
@@ -35,22 +35,27 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \david63\acpversioncheck\core\functions */
+	protected $functions;
+
 	/**
 	* Constructor for listener
 	*
-	* @param config|config				$config		Config object
-	* @param template|template\template	$template	Template object
-	* @param string 					root_path	phpBB root path
-	* @param language|language			$language	Language object
+	* @param config|config							$config		Config object
+	* @param template|template\template				$template	Template object
+	* @param string 								root_path	phpBB root path
+	* @param language|language						$language	Language object
+	* @param \david63\autodbbackup\core\functions	functions	Functions for the extension
 	*
 	* @access public
 	*/
-	public function __construct(config $config, template $template, $root_path, language $language)
+	public function __construct(config $config, template $template, $root_path, language $language, functions $functions)
 	{
 		$this->config		= $config;
 		$this->template		= $template;
 		$this->root_path	= $root_path;
 		$this->language		= $language;
+		$this->functions	= $functions;
 	}
 
 	/**
@@ -74,7 +79,7 @@ class listener implements EventSubscriberInterface
 	*/
 	public function check_versions($event)
 	{
-		$this->language->add_lang('acpversioncheck', 'david63/acpversioncheck');
+		$this->language->add_lang('acpversioncheck', $this->functions->get_ext_namespace());
 
 		$version_check 	= true;
 		$const_version	= PHPBB_VERSION;
@@ -132,10 +137,13 @@ class listener implements EventSubscriberInterface
 
 		// Output template data
 		$this->template->assign_vars(array(
-			'ACPVERSIONCHECK_VERSION'	=> ext::ACPVERSIONCHECK_VERSION,
-			'CONSTANT_VERSION' 			=> $const_version,
-			'DB_VERSION' 				=> $db_version,
-			'S_ACP_VERSIONCHECK'		=> $version_check,
+			'CONSTANT_VERSION' 		=> $const_version,
+
+			'DB_VERSION' 			=> $db_version,
+
+			'NAMESPACE'				=> $this->functions->get_ext_namespace('twig'),
+
+			'S_ACP_VERSIONCHECK'	=> $version_check,
 		));
 	}
 

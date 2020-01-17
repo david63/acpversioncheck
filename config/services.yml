@@ -6,5 +6,11 @@ services:
             - '@template'
             - '%core.root_path%'
             - '@language'
+            - '@david63.acpversioncheck.core.functions'
         tags:
             - { name: event.listener }
+
+    david63.acpversioncheck.core.functions:
+        class: david63\acpversioncheck\core\functions
+        arguments:
+            - '@ext.manager'
