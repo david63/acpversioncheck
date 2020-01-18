@@ -26,8 +26,8 @@
         },
 		"version-check": {
         	"host": "version.phpbbdev.space",
-        	"directory": "/3.3",
-        	"filename": "/acp_versioncheck_version_file.json",
+        	"directory": "/versions",
+        	"filename": "acp_versioncheck_version_file.json",
 			"ssl": false
     	}
 	}

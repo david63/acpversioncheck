@@ -68,22 +68,31 @@ class functions
 	*/
 	public function version_check()
 	{
-		$port = ($this->get_meta('ssl')) ? 443 : 80;
-
-		try
+		if ($this->get_meta('host') == 'www.phpbb.com')
 		{
-			// Let's just make sure that the version file is exists
-			if (@fopen(($port == 443 ? 'ssl://' : 'http://') . $this->get_meta('host') . $this->get_meta('directory') . $this->get_meta('filename'), 'r'))
+			$port 	= 'https://';
+			$stable	= NULL;
+		}
+		else
+		{
+			$port 	= 'http://';
+			$stable = 'unstable';
+		}
+
+		// Can we access the version srver?
+		if (@fopen($port . $this->get_meta('host') . $this->get_meta('directory') . '/' . $this->get_meta('filename'), 'r'))
+		{
+			try
 			{
 				$md_manager 	= $this->ext_manager->create_extension_metadata_manager($this->get_ext_namespace());
-				$version_data	= $this->ext_manager->version_check($md_manager, true, false, 'unstable');
+				$version_data	= $this->ext_manager->version_check($md_manager, true, false, $stable);
 			}
-			else
+			catch (version_check_exception $e)
 			{
 				$version_data['current'] = 'fail';
 			}
 		}
-		catch (version_check_exception $e)
+		else
 		{
 			$version_data['current'] = 'fail';
 		}
