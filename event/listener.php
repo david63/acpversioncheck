@@ -1,17 +1,17 @@
 <?php
 /**
-*
-* @package ACP Version Check
-* @copyright (c) 2016 david63
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * @package ACP Version Check
+ * @copyright (c) 2016 david63
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace david63\acpversioncheck\event;
 
 /**
-* @ignore
-*/
+ * @ignore
+ */
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use phpbb\config\config;
 use phpbb\template\template;
@@ -19,8 +19,8 @@ use phpbb\language\language;
 use david63\acpversioncheck\core\functions;
 
 /**
-* Event listener
-*/
+ * Event listener
+ */
 class listener implements EventSubscriberInterface
 {
 	/** @var \phpbb\config\config */
@@ -39,58 +39,58 @@ class listener implements EventSubscriberInterface
 	protected $functions;
 
 	/**
-	* Constructor for listener
-	*
-	* @param config|config							$config		Config object
-	* @param template|template\template				$template	Template object
-	* @param string 								root_path	phpBB root path
-	* @param language|language						$language	Language object
-	* @param \david63\autodbbackup\core\functions	functions	Functions for the extension
-	*
-	* @access public
-	*/
-	public function __construct(config $config, template $template, $root_path, language $language, functions $functions)
+	 * Constructor for listener
+	 *
+	 * @param config|config                          $config     Config object
+	 * @param template|template\template             $template   Template object
+	 * @param string                                 root_path   phpBB root path
+	 * @param language|language                      $language   Language object
+	 * @param \david63\autodbbackup\core\functions   functions   Functions for the extension
+	 *
+	 * @access public
+	 */
+	public function __construct(config $config, template $template, string $root_path, language $language, functions $functions)
 	{
-		$this->config		= $config;
-		$this->template		= $template;
-		$this->root_path	= $root_path;
-		$this->language		= $language;
-		$this->functions	= $functions;
+		$this->config    = $config;
+		$this->template  = $template;
+		$this->root_path = $root_path;
+		$this->language  = $language;
+		$this->functions = $functions;
 	}
 
 	/**
-	* Assign functions defined in this class to event listeners in the core
-	*
-	* @return array
-	* @static
-	* @access public
-	*/
-	static public function getSubscribedEvents()
+	 * Assign functions defined in this class to event listeners in the core
+	 *
+	 * @return array
+	 * @static
+	 * @access public
+	 */
+	public static function getSubscribedEvents()
 	{
-		return array(
+		return [
 			'core.acp_main_notice' => 'check_versions',
-		);
+		];
 	}
 
 	/**
-	* @param object $event The event object
-	* @return null
-	* @access public
-	*/
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
 	public function check_versions($event)
 	{
 		$this->language->add_lang('acpversioncheck', $this->functions->get_ext_namespace());
 
-		$version_check 	= true;
-		$const_version	= PHPBB_VERSION;
-		$db_version		= $this->config['version'];
+		$version_check = true;
+		$const_version = PHPBB_VERSION;
+		$db_version    = $this->config['version'];
 
 		// Check const & config versions
 		$version_check = phpbb_version_compare($db_version, $const_version, '=');
 
 		// Get style names & versions
-		$style_versions	= array();
-		$style			= new \DirectoryIterator($this->root_path . 'styles');
+		$style_versions = [];
+		$style          = new \DirectoryIterator($this->root_path . 'styles');
 
 		foreach ($style as $style_info)
 		{
@@ -120,44 +120,44 @@ class listener implements EventSubscriberInterface
 				}
 				fclose($style_file);
 
-				$style_versions[] = array(
-					'name' 		=> $style_name,
-					'version'	=> $style_version,
-				);
+				$style_versions[] = [
+					'name' => $style_name,
+					'version' => $style_version,
+				];
 			}
 		}
 
 		foreach ($style_versions as $key => $row)
 		{
-			$this->template->assign_block_vars('style_versions', array(
-				'STYLE_NAME'	=> $row['name'],
-				'STYLE_VERSION'	=> $row['version'],
-			));
+			$this->template->assign_block_vars('style_versions', [
+				'STYLE_NAME' => $row['name'],
+				'STYLE_VERSION' => $row['version'],
+			]);
 		}
 
 		// Output template data
-		$this->template->assign_vars(array(
-			'CONSTANT_VERSION' 		=> $const_version,
+		$this->template->assign_vars([
+			'CONSTANT_VERSION' => $const_version,
 
-			'DB_VERSION' 			=> $db_version,
+			'DB_VERSION' => $db_version,
 
-			'NAMESPACE'				=> $this->functions->get_ext_namespace('twig'),
+			'NAMESPACE' => $this->functions->get_ext_namespace('twig'),
 
-			'S_ACP_VERSIONCHECK'	=> $version_check,
-		));
+			'S_ACP_VERSIONCHECK' => $version_check,
+		]);
 	}
 
 	/**
-	* Clean the data
-	*
-	* @return string $data
-	* @private
-	* @access public
-	*/
+	 * Clean the data
+	 *
+	 * @return string $data
+	 * @private
+	 * @access public
+	 */
 	private function strip_data_from_line($line)
 	{
-		$pos 	= strpos($line , '=');
-		$data	= trim(substr($line, $pos + 1));
+		$pos  = strpos($line, '=');
+		$data = trim(substr($line, $pos + 1));
 
 		return $data;
 	}
