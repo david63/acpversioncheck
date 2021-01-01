@@ -10,11 +10,10 @@ Displays the status of the board phpBB versions.
 [![codecov](https://codecov.io/gh/david63/acpversioncheck/branch/master/graph/badge.svg?token=D2500PgRex)](https://codecov.io/gh/david63/acpversioncheck)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2d87d97fe00446c9a056c8d9236fe7f7)](https://www.codacy.com/manual/david63/acpversioncheck?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=david63/acpversioncheck&amp;utm_campaign=Badge_Grade)
 
- [![Compatible](https://img.shields.io/badge/compatible-phpBB:3.2.x-blue.svg)](https://shields.io/)
  [![Compatible](https://img.shields.io/badge/compatible-phpBB:3.3.x-blue.svg)](https://shields.io/)
 
 ## Minimum Requirements
-* phpBB 3..0
+* phpBB 3.3.0
 * PHP 7.1.3
 
 ## Install
