@@ -23,29 +23,29 @@ use david63\acpversioncheck\core\functions;
  */
 class listener implements EventSubscriberInterface
 {
-	/** @var \phpbb\config\config */
+	/** @var config */
 	protected $config;
 
-	/** @var \phpbb\template\template\template */
+	/** @var template */
 	protected $template;
 
 	/** @var string phpBB root path */
 	protected $root_path;
 
-	/** @var \phpbb\language\language */
+	/** @var language */
 	protected $language;
 
-	/** @var \david63\acpversioncheck\core\functions */
+	/** @var functions */
 	protected $functions;
 
 	/**
 	 * Constructor for listener
 	 *
-	 * @param config|config                          $config     Config object
-	 * @param template|template\template             $template   Template object
-	 * @param string                                 root_path   phpBB root path
-	 * @param language|language                      $language   Language object
-	 * @param \david63\autodbbackup\core\functions   functions   Functions for the extension
+	 * @param config		$config     Config object
+	 * @param template		$template   Template object
+	 * @param string		root_path   phpBB root path
+	 * @param language		$language   Language object
+	 * @param functions		functions   Functions for the extension
 	 *
 	 * @access public
 	 */
